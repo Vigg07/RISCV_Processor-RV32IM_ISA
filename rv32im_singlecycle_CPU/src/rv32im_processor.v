@@ -1,0 +1,17 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Module Name: rv32im_processor
+// Project Name: rv32im_single_cycle
+//////////////////////////////////////////////////////////////////////////////////
+
+module rv32im_processor(
+    input clk,
+    input rst
+    );
+
+    datapath datapath_inst(
+        .clk(clk),
+        .rst(rst)
+    );
+
+endmodule
