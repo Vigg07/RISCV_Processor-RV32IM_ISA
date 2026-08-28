@@ -1,3 +1,4 @@
+
 `timescale 1ns / 1ps
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -498,18 +499,22 @@ module datapath(
     forwarding_mux forwarding_mux_a(
         .reg_data(read_data1_ex),
         .alu_result_mem(alu_result_mem),
+        .mul_div_result_mem(mul_div_result_mem),
         .writeback_data_wb(writeback_data_wb),
+        .is_mul_div_mem(is_mul_div_mem),
         .forward(forward_a),
         .alu_input(alu_a_forwarded)
-        );
+);
     
-        forwarding_mux forwarding_mux_b(
+    forwarding_mux forwarding_mux_b(
         .reg_data(read_data2_ex),
         .alu_result_mem(alu_result_mem),
+        .mul_div_result_mem(mul_div_result_mem),
         .writeback_data_wb(writeback_data_wb),
+        .is_mul_div_mem(is_mul_div_mem),
         .forward(forward_b),
         .alu_input(alu_b_forwarded)
-        );
+);
         
 ////////////////// Load use hazard //////////////////
 
@@ -524,3 +529,5 @@ module datapath(
         
         
 endmodule
+
+is it okay now??
