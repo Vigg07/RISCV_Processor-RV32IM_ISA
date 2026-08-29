@@ -12,16 +12,7 @@ module matrix_mul_tb;
         .rst(rst)
     );
 
-    // ============================================================
-    // CLOCK
-    // ============================================================
-
     always #5 clk = ~clk;
-
-
-    // ============================================================
-    // LOGGING
-    // ============================================================
 
     always @(posedge clk) begin
 
@@ -45,16 +36,7 @@ module matrix_mul_tb;
 
     end
 
-
-    // ============================================================
-    // TEST
-    // ============================================================
-
     initial begin
-
-        // --------------------------------------------------------
-        // OPEN LOG FILE
-        // --------------------------------------------------------
 
         logfile = $fopen(
             "/home/vigg/Vigg/Projects/FYP/FYP_Design/matrix_mul_output.txt",
@@ -69,30 +51,11 @@ module matrix_mul_tb;
         $display("Output log opened successfully.");
 
 
-        // --------------------------------------------------------
-        // LOAD PROGRAM
-        // --------------------------------------------------------
-
         $readmemh(
             "matrix_mul_original.mem",
             dut.datapath_inst.instr_mem_inst.memory
         );
 
-
-        // --------------------------------------------------------
-        // INITIALIZE DATA MEMORY
-        //
-        // A = [1 2]
-        //     [3 4]
-        //
-        // B = [5 6]
-        //     [7 8]
-        //
-        // Expected:
-        //
-        // C[0][0] = 1*5 + 2*7 = 19 = 0x13
-        //
-        // --------------------------------------------------------
 
         dut.datapath_inst.data_mem_inst.memory[95]  = 32'd1;
         dut.datapath_inst.data_mem_inst.memory[96]  = 32'd2;
@@ -105,51 +68,18 @@ module matrix_mul_tb;
         dut.datapath_inst.data_mem_inst.memory[102] = 32'd8;
 
 
-        // --------------------------------------------------------
-        // INITIAL CONDITIONS
-        // --------------------------------------------------------
-
         clk = 1'b0;
         rst = 1'b1;
 
-
-        // --------------------------------------------------------
-        // RESET
-        // --------------------------------------------------------
-
         #20;
         rst = 1'b0;
-
-
-        // ========================================================
-        // WAIT FOR PROGRAM TERMINATION
-        //
-        // The final instruction in matrix_mul_original.mem is:
-        //
-        // 00008067 = RET
-        //
-        // The program first executes:
-        //
-        // 0000006f = JAL x0, 0
-        //
-        // which forms the infinite loop after the result is ready.
-        //
-        // We therefore wait until x10 contains the expected result.
-        // ========================================================
 
         wait (
             dut.datapath_inst.reg_file_inst.register[10]
             == 32'h00000013
         );
 
-
-        // Give the pipeline a few cycles to settle
         #50;
-
-
-        // ========================================================
-        // FINAL RESULT
-        // ========================================================
 
         $fdisplay(logfile, "");
         $fdisplay(logfile, "==============================================");
@@ -205,10 +135,6 @@ module matrix_mul_tb;
         end
 
 
-        // ========================================================
-        // DATA MEMORY CHECK
-        // ========================================================
-
         $fdisplay(logfile, "");
         $fdisplay(logfile, "DATA MEMORY");
 
@@ -238,10 +164,6 @@ module matrix_mul_tb;
 
         $fdisplay(logfile, "==============================================");
 
-
-        // ========================================================
-        // CLOSE FILE
-        // ========================================================
 
         $fclose(logfile);
 
