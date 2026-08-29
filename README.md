@@ -222,8 +222,18 @@ rv32im-processor/
 │   │   └── rv32im_processor.v
 │   │
 │   ├── sim/
-│       ├── rv32im_processor_tb.v
-│       └── instr.mem
+│       ├── tb/
+│       │    ├── fibonacci_tb-v
+│       │    ├── factorial_tb.v
+│       │    ├── matrix_mul_tb.v
+│       │    └── bubble_sort_tb.v
+│       │
+│       └── mem_files/
+│            ├── instr.mem
+│            ├── fibonacci.mem
+│            ├── factorial.mem
+│            ├── matrix_mul_original.mem
+│            └── bubble_sort_32bit.mem
 │   
 │   
 │
