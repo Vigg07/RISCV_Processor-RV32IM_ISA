@@ -17,7 +17,7 @@ module load_use_hazard_unit(
     
     always @(*) begin
         
-        if((mem_read_ex == 1'b1) && (rd_ex != 0) && ((rs1_id == rd_ex) || (rs2_id == rd_ex)) )
+        if((mem_read_ex == 1'b1) && (rd_ex != 5'b0) && ((rs1_id == rd_ex) || (rs2_id == rd_ex)) )
             begin
                 stall = 1'b1;
             end
