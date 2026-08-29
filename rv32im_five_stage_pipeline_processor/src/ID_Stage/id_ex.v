@@ -146,17 +146,30 @@ module id_ex(
             read_data2_out <= read_data2_in;
         end
         else begin
-            reg_write_out  <= 1'b0;
-            mem_read_out   <= 1'b0;
-            mem_write_out  <= 1'b0;
-            branch_out     <= 1'b0;
-            jump_out       <= 1'b0;
-            is_mul_div_out <= 1'b0;
-            rd_out         <= 5'b0;
-            alu_src_out    <= 1'b0;
-            alu_op_out     <= 2'b0;
-            wb_sel_out     <= 3'b0;    
-                        
+            pc_out          <= 32'b0;
+            pc_plus4_out    <= 32'b0;
+            imm_ex          <= 32'b0;
+            opcode_out      <= 7'b0;
+            funct7_out      <= 7'b0;
+            funct3_out      <= 3'b0;
+        
+            reg_write_out   <= 1'b0;
+            alu_src_out     <= 1'b0;
+            mem_read_out    <= 1'b0;
+            mem_write_out   <= 1'b0;
+            branch_out      <= 1'b0;
+            jump_out        <= 1'b0;
+            alu_op_out      <= 2'b00;
+            wb_sel_out      <= 3'b000;
+            is_mul_div_out  <= 1'b0;
+            auipc_data_out  <= 32'b0;
+        
+            rs1_out         <= 5'b0;
+            rs2_out         <= 5'b0;
+            rd_out          <= 5'b0;
+        
+            read_data1_out  <= 32'b0;
+            read_data2_out  <= 32'b0;
         end
     end      
 
