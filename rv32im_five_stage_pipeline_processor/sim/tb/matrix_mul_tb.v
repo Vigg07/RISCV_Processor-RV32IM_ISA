@@ -39,7 +39,7 @@ module matrix_mul_tb;
     initial begin
 
         logfile = $fopen(
-            "/home/vigg/Vigg/Projects/FYP/FYP_Design/matrix_mul_output.txt",
+            "matrix_mul_output.txt",
             "w"
         );
 
@@ -169,7 +169,7 @@ module matrix_mul_tb;
 
         $display("");
         $display("Log saved to:");
-        $display("/home/vigg/Vigg/Projects/FYP/FYP_Design/matrix_mul_output.txt");
+        $display("matrix_mul_output.txt");
 
         $finish;
 
