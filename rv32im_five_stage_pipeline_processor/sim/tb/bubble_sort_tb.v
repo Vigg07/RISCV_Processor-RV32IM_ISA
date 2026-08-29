@@ -12,16 +12,7 @@ module bubble_sort_tb;
         .rst(rst)
     );
 
-    // ============================================================
-    // CLOCK
-    // ============================================================
-
     always #5 clk = ~clk;
-
-
-    // ============================================================
-    // LOGGING
-    // ============================================================
 
     always @(posedge clk) begin
 
@@ -42,19 +33,10 @@ module bubble_sort_tb;
 
     end
 
-
-    // ============================================================
-    // TEST
-    // ============================================================
-
     initial begin
 
-        // --------------------------------------------------------
-        // OPEN LOG FILE
-        // --------------------------------------------------------
-
         logfile = $fopen(
-            "/home/vigg/Vigg/Projects/FYP/FYP_Design/rv32im_5stage_pipeline/Benchmarks/bubble_sort_output.txt",
+            "bubble_sort_output.txt",
             "w"
         );
 
@@ -65,31 +47,10 @@ module bubble_sort_tb;
 
         $display("Output log opened successfully.");
 
-
-        // --------------------------------------------------------
-        // LOAD PROGRAM
-        // --------------------------------------------------------
-
         $readmemh(
             "bubble_sort_32bit.mem",
             dut.datapath_inst.instr_mem_inst.memory
         );
-
-
-        // --------------------------------------------------------
-        // INITIALIZE DATA MEMORY
-        //
-        // C program:
-        //
-        // int arr[5] = {5, 2, 4, 1, 3};
-        //
-        // Initial array is loaded by the program from:
-        //
-        // 0x12C = 300
-        //
-        // 300 / 4 = 75
-        // --------------------------------------------------------
-
         dut.datapath_inst.data_mem_inst.memory[75] = 32'd5;
         dut.datapath_inst.data_mem_inst.memory[76] = 32'd2;
         dut.datapath_inst.data_mem_inst.memory[77] = 32'd4;
@@ -97,68 +58,20 @@ module bubble_sort_tb;
         dut.datapath_inst.data_mem_inst.memory[79] = 32'd3;
 
 
-        // --------------------------------------------------------
-        // INITIAL CONDITIONS
-        // --------------------------------------------------------
-
         clk = 0;
         rst = 1;
-
-
-        // --------------------------------------------------------
-        // RESET
-        // --------------------------------------------------------
 
         #20;
         rst = 0;
 
-
-        // --------------------------------------------------------
-        // INITIALIZE STACK POINTER AFTER RESET
-        //
-        // The program uses stack memory for the actual array.
-        //
-        // x2 = 0x100
-        // After:
-        //
-        //     addi sp,sp,-48
-        //
-        // sp becomes:
-        //
-        //     0x100 - 48 = 0xD0
-        //
-        // Therefore the actual array is located at:
-        //
-        // 0xD0, 0xD4, 0xD8, 0xDC, 0xE0
-        // --------------------------------------------------------
-
         dut.datapath_inst.reg_file_inst.register[2] = 32'h00000100;
 
-
-        // --------------------------------------------------------
-        // RUN
-        // --------------------------------------------------------
-
         #20000;
-
-
-        // ========================================================
-        // FINAL RESULT
-        // ========================================================
 
         $fdisplay(logfile, "");
         $fdisplay(logfile, "==============================================");
         $fdisplay(logfile, "             BUBBLE SORT TEST");
         $fdisplay(logfile, "==============================================");
-
-
-        // --------------------------------------------------------
-        // SORTED ARRAY
-        //
-        // Actual array location:
-        //
-        // 0xD0 / 4 = 52
-        // --------------------------------------------------------
 
         $fdisplay(logfile, "ARRAY AFTER SORT:");
 
@@ -177,21 +90,11 @@ module bubble_sort_tb;
         $fdisplay(logfile, "arr[4] = %h",
             dut.datapath_inst.data_mem_inst.memory[56]);
 
-
-        // --------------------------------------------------------
-        // RETURN VALUE
-        // --------------------------------------------------------
-
         $fdisplay(logfile, "");
         $fdisplay(logfile, "x10 (a0) = %h",
             dut.datapath_inst.reg_file_inst.register[10]);
 
         $fdisplay(logfile, "Expected x10 = 00000001");
-
-
-        // ========================================================
-        // CHECK
-        // ========================================================
 
         if (
             dut.datapath_inst.data_mem_inst.memory[52] == 32'd1 &&
@@ -215,18 +118,13 @@ module bubble_sort_tb;
 
         $fdisplay(logfile, "==============================================");
 
-
-        // --------------------------------------------------------
-        // CLOSE
-        // --------------------------------------------------------
-
         $fclose(logfile);
 
         $display("");
         $display("==============================================");
         $display("Simulation finished.");
         $display("Log saved to:");
-        $display("/home/vigg/Vigg/Projects/FYP/FYP_Design/rv32im_5stage_pipeline/Benchmarks/bubble_sort_output.txt");
+        $display("bubble_sort_output.txt");
         $display("==============================================");
 
         $finish;
