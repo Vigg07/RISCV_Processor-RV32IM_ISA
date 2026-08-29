@@ -1,4 +1,3 @@
-
 `timescale 1ns / 1ps
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -484,17 +483,18 @@ module datapath(
     
     
 ////////////////// Forwarding unit ///////////////
-
+    
     forwarding_unit forwarding_unit_inst(
         .rs1_ex(rs1_ex),
         .rs2_ex(rs2_ex),
         .rd_mem(rd_mem),
         .reg_write_mem(reg_write_mem),
+        .mem_read_mem(mem_read_mem),
         .rd_wb(rd_wb),
         .reg_write_wb(reg_write_wb),
         .forward_a(forward_a),
         .forward_b(forward_b)
-        );
+    );
     
     forwarding_mux forwarding_mux_a(
         .reg_data(read_data1_ex),
@@ -504,7 +504,7 @@ module datapath(
         .is_mul_div_mem(is_mul_div_mem),
         .forward(forward_a),
         .alu_input(alu_a_forwarded)
-);
+    );
     
     forwarding_mux forwarding_mux_b(
         .reg_data(read_data2_ex),
@@ -514,7 +514,7 @@ module datapath(
         .is_mul_div_mem(is_mul_div_mem),
         .forward(forward_b),
         .alu_input(alu_b_forwarded)
-);
+    );
         
 ////////////////// Load use hazard //////////////////
 
@@ -524,10 +524,8 @@ module datapath(
         .rs1_id(rs1_id),
         .rs2_id(rs2_id),
         .stall(stall)
-        );
+    );
         
         
         
 endmodule
-
-is it okay now??
